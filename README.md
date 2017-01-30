@@ -2,6 +2,8 @@
 
 Below is the full summary of the challenge which I have completed. This was great practice in manipulating and navigating a 2 dimensional data structure - in this case an array of arrays.
 
+You can find my solution to the challenge in the word_search.rb file.
+
 ## Summary
 In this challenge we're going to write a search algorithm that will tell us whether or not a word can be found in a [word search puzzle][wikipedia word search].  The specific rules that we need to follow will be detailed in the releases.
 
