@@ -3,6 +3,7 @@ require 'pp'
 def straight_line_include?(word, puzzle)
 
   starting_points  = []
+#list of surrounding coordinates in a 2d array
   directions = [
     [1,0],
     [0,1],
@@ -14,7 +15,7 @@ def straight_line_include?(word, puzzle)
     [-1,1]
   ]
 
-  #find starting points for search
+  #Search through the 2d array seeking all positions with a letter that matches first letter of the word
   puzzle.each_with_index do |row,row_index|
     row.each_with_index do |char,col_index|
       if  char == word[0]
@@ -23,6 +24,7 @@ def straight_line_include?(word, puzzle)
     end
   end
 
+  #handle nil return
   if starting_points[0].nil?
     return false
   end
@@ -33,13 +35,12 @@ def straight_line_include?(word, puzzle)
       # ...from which in any single direction...
       word.split('').each_with_index.all? do |char,index|
         #... all of the chars in that direction match
-
+        # calculate next point to check (rechecks starting point too)
         row_index = point[0] + index * direction[0]
         col_index = point[1] + index * direction[1]
-        # calculate next point to check (rechecks starting point too)
 
+        #stay within bounds of the 2d array
         if row_index > (puzzle.length - 1) || col_index >( puzzle[0].length - 1) || row_index < 0 || col_index < 0
-          # make sure index is in bounds
           false
         elsif puzzle[row_index][col_index] == char
           # keep going
@@ -52,7 +53,10 @@ def straight_line_include?(word, puzzle)
   end
 end
 
+#recursively seek out answer, continuing until all starting positions have been checked or solution found
 def snaking_include?(word, puzzle, i = 0,coordinates_to_check = [])
+  #Each time a letter match is found i is incremented by 1
+  #Without classes only way to make data persist in the recursive method is to include as an argument
   return true if i == word.length
 
   if coordinates_to_check == []
@@ -60,6 +64,7 @@ def snaking_include?(word, puzzle, i = 0,coordinates_to_check = [])
     coordinates_to_check = find_starting_coordinates(word[0],puzzle)
   end
 
+  #if a matching letter is found continue seeking matches in all directions at next coordinate
   coordinates_to_check.any? do |coordinate|
     if puzzle[coordinate[0]][coordinate[1]] == word[i]
      neighbors = get_next_coordinates(coordinate,puzzle)
@@ -118,12 +123,9 @@ def interface()
     pp puzzle
   else
     puts "Word Not Found"
-    puts "wooommmmp woooommmmp"
+    puts "Fail blog!"
   end
-
 end
 
-
-#interface()
 
 
